@@ -44,18 +44,22 @@ class Order(models.Model):
 
 class History(models.Model):
     order = models.ForeignKey(Order)
-    description = models.TextField()
+    text = models.TextField()
+    timestamp = models.DateTimeField()
     user = models.ForeignKey(user.models.User)
 
 
 class Note(models.Model):
     order = models.ForeignKey(Order)
     text = models.TextField()
+    timestamp = models.DateTimeField()
     user = models.ForeignKey(user.models.User)
 
 
 class Flags(models.Model):
     order = models.ForeignKey(Order)
     text = models.TextField()
-    user = models.ForeignKey(user.models.User)
+    timestamp = models.DateTimeField()
+    acknowledged = models.BooleanField(default=False)
+    user = models.ForeignKey(user.models.User, null=True)
 
