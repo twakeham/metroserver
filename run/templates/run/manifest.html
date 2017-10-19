@@ -1,0 +1,114 @@
+<html>
+
+    <head>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+
+            th {
+                text-align: left;
+                width: 200px;
+            }
+
+            .order {
+                border: 1px solid black;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .order td {
+                width: 50%;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <header>
+            <h1>Manifest</h1>
+        </header>
+
+        <section id="subheader">
+            <h2>
+                Run {{run.id}} - {{run.name}} | {{run.delivery_date}}
+            </h2>
+        </section>
+
+        <section>
+            <h3>{{run.driver.driver_number}} | {{run.driver.name}} | {{run.driver.phone}}</h3>
+        </section>
+
+        <section>
+            {% for order in orders %}
+                <table class="order">
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <th>Job #</th>
+                                    <td>{{order.id}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Reference</th>
+                                    <td>{{order.reference}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{order.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>
+                                        {{order.address1}}
+                                        {% if order.address2 %}
+                                            <br>{{order.address2}}
+                                        {% endif %}
+                                        <br>{{order.suburb.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>
+                                        {{order.phone1}}
+                                        {% if order.phone2 %}
+                                            <br>{{order.phone2}}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <th>Timeslot</th>
+                                    <td>{{order.delivery_timeframe|default:'-'}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Volume</th>
+                                    <td>
+                                        {% if order.meterage %}
+                                            {{order.meterage}}
+                                        {% else %}
+                                            {{order.volume}}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Price</th>
+                                    <td>{{order.price}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Instructions</th>
+                                    <td>{{order.instructions|default:'-'}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            {% endfor %}
+        </section>
+
+    </body>
+
+</html>

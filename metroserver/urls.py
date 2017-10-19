@@ -16,6 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+import sms.views
+import run.views
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^sms/$', sms.views.reply_to_sms_messages),
+    url(r'^manifest/(?P<run_id>[0-9]+)/$', run.views.manifest_view),
+    url(r'^export/(?P<run_id>[0-9]+)/$', run.views.job_export_view),
+    url(r'^invoice/(?P<run_id>[0-9]+)/$', run.views.invoice_export_view),
 ]

@@ -11,4 +11,4 @@ class Message(models.Model):
 
     order = models.ForeignKey(order.models.Order, null=True)
     user = models.ForeignKey(user.models.User)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)

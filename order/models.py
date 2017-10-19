@@ -7,8 +7,8 @@ import product.models
 
 
 class OrderProduct(models.Model):
-    order = models.ForeignKey('Order')
-    product = models.ForeignKey(product.models.Product)
+    order = models.ForeignKey('Order', related_name='orderproduct')
+    product = models.ForeignKey(product.models.Product, related_name='orderproduct')
     quantity = models.IntegerField()
 
 
@@ -26,6 +26,7 @@ class Order(models.Model):
     preferred_day = models.CharField(max_length=20, default='', null=True)
     delivery_date = models.DateField(null=True)
     delivery_timeframe = models.CharField(max_length=30, null=True)
+    instructions = models.TextField(null=True)
 
     products = models.ManyToManyField(product.models.Product, through=OrderProduct)
     meterage = models.FloatField(null=True)
@@ -37,7 +38,8 @@ class Order(models.Model):
     confirmed = models.NullBooleanField(default=False, null=True)
     canceled = models.NullBooleanField(default=False, null=True)
     completed = models.NullBooleanField(default=False, null=True)
-    flag = models.NullBooleanField(default=False, null=True)
+    booked = models.NullBooleanField(default=False, null=True)
+    invoiced = models.NullBooleanField(default=False, null=True)
 
     user = models.ForeignKey(user.models.User)
 
@@ -45,21 +47,21 @@ class Order(models.Model):
 class History(models.Model):
     order = models.ForeignKey(Order)
     text = models.TextField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(user.models.User)
 
 
 class Note(models.Model):
     order = models.ForeignKey(Order)
     text = models.TextField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(user.models.User)
 
 
 class Flags(models.Model):
     order = models.ForeignKey(Order)
     text = models.TextField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     acknowledged = models.BooleanField(default=False)
     user = models.ForeignKey(user.models.User, null=True)
 

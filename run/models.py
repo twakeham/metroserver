@@ -9,7 +9,9 @@ class Run(models.Model):
     driver = models.ForeignKey(driver.models.Driver)
 
     complete = models.BooleanField(default=False)
-    booked = models.BooleanField(default=False)
+    manifested = models.BooleanField(default=False)
+    invoiced = models.BooleanField(default=False)
+    canceled = models.NullBooleanField(default=False)
 
     def __str__(self):
         return self.name
