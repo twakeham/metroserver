@@ -22,7 +22,7 @@ def manifest_view(request, run_id):
 
 def job_export_view(request, run_id):
     run = get_object_or_404(Run, id=run_id)
-    orders = Order.objects.filter(run=run, canceled=False, booked=False).order_by('sequence')
+    orders = Order.objects.filter(run=run, canceled=False).exclude(booked=True).order_by('sequence')
 
     rows = [['DATE', 'ACCT', 'REF 1', 'REF 2', 'SERVICE', '# ITEMS', 'CUSTOMER', 'ADDRESS LINE 1', 'ADDRESS LINE 2',
              'ADDRESS LINE 3', 'ADDRESS LINE 4', 'SUBURB', 'PRICE', 'DRIVER']]
@@ -75,6 +75,7 @@ def invoice_export_view(request, run_id):
         'Warehouse Furniture Clearance',
         run.name,
         'Run: {0} Driver: {1}'.format(run.id, run.driver.driver_number),
+        '',
         '',
         'Albany Creek',
         price,
